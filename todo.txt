@@ -1,0 +1,11 @@
+sabse pahle extract karna hain using pandas 
+
+then html/excel mai convert krna hain 
+
+pahle ek standard format without any re exam ke liye krna hain 
+
+then use pdf mai convert krna hai 
+
+non standard format ka code alag se banana hoga
+
+need to do this by 15 at max
