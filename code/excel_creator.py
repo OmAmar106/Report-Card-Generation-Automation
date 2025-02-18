@@ -232,6 +232,7 @@ def create(name,branch,name1):
                         ws.cell(row=row, column=col).border = border_style
 
         wb.save(output_filename)
+        wb.close()
 
         # print(f"Created file for {student}: {output_filename}")
         createpdf(output_filename)
