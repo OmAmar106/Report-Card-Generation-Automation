@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
-from openpyxl.styles import Alignment,Font
+from openpyxl.styles import Alignment,Font,Border,Side
+from pdfcreator import createpdf
 
 def func1(num):
     if num==1:
@@ -19,6 +20,17 @@ def func1(num):
         return 'VII'
     else:
         return 'VIII'
+
+def func7(st):
+    d = {"AA":10,"AB":9,"BB":8,"BC":7,"CC":6,"CD":5,"DD":4}
+    if st not in d:
+        return 0
+    return d[st]
+
+border_style = Border(left=Side(style="medium", color="000000"),
+                      right=Side(style="medium", color="000000"),
+                      top=Side(style="medium", color="000000"),
+                      bottom=Side(style="medium", color="000000"))
 
 def create(name,branch,name1):
     df = pd.read_excel(name)
@@ -46,11 +58,20 @@ def create(name,branch,name1):
             left_start_col = 1
             right_start_col = 11
             
+            tc = 0
+            tacq = 0
+
+            merge = []
+            L7 = []
             table_cols = ["Course Code","Course","Credit","Grade"]
             
             unique_semesters = sorted(student_df["Semester"].unique())
 
             for semester in unique_semesters:
+
+                credi = 0
+                acq = 0
+
                 sem_df = student_df[student_df["Semester"] == semester]
 
                 def func(sem_df,left_start_row,left_start_col):
@@ -58,6 +79,14 @@ def create(name,branch,name1):
                     sem_df["Course"].to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col+2, index=False)
                     sem_df["Credit"].to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col+6, index=False)
                     sem_df["Grade"].to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col+8, index=False)
+
+                for index,row in sem_df.iterrows():
+                    if row["Grade"]!="FF":
+                        credi += row["Credit"]
+                        acq += row["Credit"]*func7(row["Grade"])
+
+                tacq += acq
+                tc += credi
 
                 if int(semester) % 2 == 1:
                     headers.append((left_start_row + 1, left_start_col + 1,8))
@@ -73,6 +102,11 @@ def create(name,branch,name1):
                         headers.append((left_start_row+j+1, left_start_col + 7,1))
 
                     left_start_row += len(sem_df) + 2
+                    left_start_row += 1
+                    merge.append((left_start_row,left_start_row+1,left_start_col+1,left_start_col+1))
+                    merge.append((left_start_row,left_start_row+1,left_start_col+5,left_start_col+6))
+                    L7.append((left_start_row,left_start_col,credi,tc,acq,tacq))
+                    left_start_row += 2
                    
                 else:
                     headers.append((right_start_row + 1, right_start_col + 1,8))
@@ -86,7 +120,12 @@ def create(name,branch,name1):
                         headers.append((right_start_row+j+1, right_start_col + 3,3))
                         headers.append((right_start_row+j+1, right_start_col + 7,1))
                     right_start_row += len(sem_df) + 2
-        
+                    right_start_row += 1
+                    merge.append((right_start_row,right_start_row+1,right_start_col+1,right_start_col+1))
+                    merge.append((right_start_row,right_start_row+1,right_start_col+5,right_start_col+6))
+                    L7.append((right_start_row,right_start_col,credi,tc,acq,tacq))
+                    right_start_row += 2
+
         wb = load_workbook(output_filename)
         ws = wb.active
 
@@ -102,13 +141,13 @@ def create(name,branch,name1):
         for row, col,k in headers:
             ws.cell(row=row, column=col).font = bold_font
             ws.merge_cells(start_row=row,end_row=row,start_column=col,end_column=col+k)
+        
+        for u,v,w,x in merge:
+            ws.merge_cells(start_row=u,end_row=v,start_column=w,end_column=x)
 
         ws.row_dimensions[1].height = 30
         # for col, width in column_widths.items():
         #     ws.column_dimensions[col].width = width
-        cell = ws["B1"]
-        cell.value = "GRADE CARD"
-        cell.font = Font(bold=True,size=20)
 
         k = ws["B2"]
         k.value = "Name : " 
@@ -136,14 +175,65 @@ def create(name,branch,name1):
         k.value = "Bachelor of Technology"
         k.font = Font(bold=True,size=13)
         
+        for startrow,startcol,credits,totalcredits,egp,totalegp in L7:
+            k = ws.cell(startrow,startcol+1)
+            k.value = "SGPA"
+
+            k = ws.cell(startrow,startcol+2)
+            k.value = "Credit"
+            k = ws.cell(startrow+1,startcol+2)
+            k.value = credits
+
+            k = ws.cell(startrow,startcol+3)
+            k.value = "EGP"
+            k = ws.cell(startrow+1,startcol+3)
+            k.value = egp
+
+            k = ws.cell(startrow,startcol+4)
+            k.value = "SGPA"
+            k = ws.cell(startrow+1,startcol+4)
+            k.value = "%.2f"%(egp/credits)
+
+            k = ws.cell(startrow,startcol+5)
+            k.value = "CGPA"
+
+            k = ws.cell(startrow,startcol+7)
+            k.value = "Credit"
+            k = ws.cell(startrow+1,startcol+7)
+            k.value = totalcredits
+
+            k = ws.cell(startrow,startcol+8)
+            k.value = "EGP"
+            k = ws.cell(startrow+1,startcol+8)
+            k.value = totalegp
+
+            k = ws.cell(startrow,startcol+9)
+            k.value = "CGPA"
+            k = ws.cell(startrow+1,startcol+9)
+            k.value = "%.2f"%(totalegp/totalcredits)
+
         for row in ws.iter_rows():
             for cell in row:
+                if isinstance(cell.value,str) or isinstance(cell.value,int):
+                    cell.border = border_style
                 if cell.coordinate in ['L3','O2','L2','O3','B2','E2','B3','E3']:
                     continue
                 cell.alignment = Alignment(horizontal='center', vertical='center',wrap_text=True)
+                cell.font = Font(bold=True)
         
+        cell = ws["B1"]
+        cell.value = "GRADE CARD"
+        cell.font = Font(bold=True,size=20)
+        
+        for merged_range in ws.merged_cells.ranges:
+                min_row, min_col, max_row, max_col = merged_range.min_row, merged_range.min_col, merged_range.max_row, merged_range.max_col
+                for row in range(min_row, max_row + 1):
+                    for col in range(min_col, max_col + 1):
+                        ws.cell(row=row, column=col).border = border_style
+
         wb.save(output_filename)
 
-        print(f"Created file for {student}: {output_filename}")
+        # print(f"Created file for {student}: {output_filename}")
+        createpdf(output_filename)
         break
     print("Processing complete.")
