@@ -20,7 +20,7 @@ def func1(num):
     else:
         return 'VIII'
 
-def create(name):
+def create(name,branch,name1):
     df = pd.read_excel(name)
     df.columns = df.columns.str.strip()
     students = df["BT ID"].unique()
@@ -29,8 +29,17 @@ def create(name):
         output_filename = f"{student}_Grade_Card.xlsx"
         
         headers = []
-
+        headers.append((2,2,2))
+        headers.append((3,2,2))
+        headers.append((2,5,5))
+        headers.append((3,5,5))
+        headers.append((2,12,2))
+        headers.append((3,12,2))
+        headers.append((2,15,5))
+        headers.append((3,15,5))
         with pd.ExcelWriter(output_filename, engine="openpyxl") as writer:
+            # header_df.to_excel(writer,sheet_name="Sheet1",startrow=0,startcol=1,index=False)
+            headers.append((1,2,18))  
             left_start_row = 4
             right_start_row = 4
             
@@ -94,11 +103,43 @@ def create(name):
             ws.cell(row=row, column=col).font = bold_font
             ws.merge_cells(start_row=row,end_row=row,start_column=col,end_column=col+k)
 
+        ws.row_dimensions[1].height = 30
         # for col, width in column_widths.items():
         #     ws.column_dimensions[col].width = width
+        cell = ws["B1"]
+        cell.value = "GRADE CARD"
+        cell.font = Font(bold=True,size=20)
 
+        k = ws["B2"]
+        k.value = "Name : " 
+        k.font = Font(bold=True,size=13)
+        k = ws["E2"]
+        k.value = name1[student] 
+        k.font = Font(bold=True,size=13)
+        k = ws["B3"]
+        k.value = "Branch : "
+        k.font = Font(bold=True,size=13)
+        k = ws["E3"]
+        k.value = branch
+        k.font = Font(bold=True,size=13)
+
+        k = ws["L2"]
+        k.value = "Enrollment No. : " 
+        k.font = Font(bold=True,size=13)
+        k = ws["O2"]
+        k.value = student.upper() 
+        k.font = Font(bold=True,size=13)
+        k = ws["L3"]
+        k.value = "Degree : "
+        k.font = Font(bold=True,size=13)
+        k = ws["O3"]
+        k.value = "Bachelor of Technology"
+        k.font = Font(bold=True,size=13)
+        
         for row in ws.iter_rows():
             for cell in row:
+                if cell.coordinate in ['L3','O2','L2','O3','B2','E2','B3','E3']:
+                    continue
                 cell.alignment = Alignment(horizontal='center', vertical='center',wrap_text=True)
         
         wb.save(output_filename)
