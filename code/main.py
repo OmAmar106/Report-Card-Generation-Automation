@@ -23,6 +23,6 @@ finaldata, name = getalldata("ECE-2020-CUMULATIVE.xlsx")
 
 createexcel()
 
-# create("student_data.xlsx","Electronics and Communication Engineering",name)
+create("student_data.xlsx","Electronics and Communication Engineering",name)
 
-create("student_data.xlsx",input("Enter Branch Name"))
+# create("student_data.xlsx",input("Enter Branch Name"))

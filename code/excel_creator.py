@@ -36,6 +36,7 @@ def create(name,branch,name1):
     df = pd.read_excel(name)
     df.columns = df.columns.str.strip()
     students = df["BT ID"].unique()
+    count = 0
     for student in students:
         student_df = df[df["BT ID"] == student].sort_values(by="Semester")
         output_filename = f"{student}_Grade_Card.xlsx"
@@ -236,5 +237,7 @@ def create(name,branch,name1):
 
         # print(f"Created file for {student}: {output_filename}")
         createpdf(output_filename)
-        break
+        count += 1
+        # if count==2:
+        #     break
     print("Processing complete.")
