@@ -1,3 +1,29 @@
-# Report-Card-Generation-Automation
+# Report Card Generation Automation
 
-Will make use of python and some other external libraries to create a report card in the pdf format which initailly is given in the xlsx format
+This project automates the generation of student report cards using **Python** with the following libraries: `pandas`, `openpyxl`, and `win32com`.
+
+## Features
+- Extracts student data from an Excel file.
+- Reformats the data into a new Excel file.
+- For each Student creates a new Excel file format report card.
+- Converts the new Excel file into a **PDF report card**.
+
+## Installation 
+
+```bash
+>> git clone https://github.com/OmAmar106/Report-Card-Generation-Automation.git
+```
+```bash
+>> cd Report-Card-Generation-Automation
+```
+```bash
+>> cd code
+```
+```bash
+>> pip install pandas openpyxl pywin32
+```
+```bash
+>> python main.py
+```
+
+
