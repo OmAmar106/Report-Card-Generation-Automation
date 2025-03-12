@@ -214,18 +214,26 @@ def create(name,branch,name1):
             k.value = "%.2f"%(totalegp/totalcredits)
 
         for row in ws.iter_rows():
+            max_height=20
             for cell in row:
-                if isinstance(cell.value,str) or isinstance(cell.value,int):
-                    cell.border = border_style
-                if cell.coordinate in ['L3','O2','L2','O3','B2','E2','B3','E3']:
+                if isinstance(cell.value, str) or isinstance(cell.value, int):
+                    # Exclude B1 from having a border
+                    if cell.coordinate != "B1":
+                        cell.border = border_style
+                if cell.coordinate in ['L3', 'O2', 'L2', 'O3', 'B2', 'E2', 'B3', 'E3']:
                     continue
-                cell.alignment = Alignment(horizontal='center', vertical='center',wrap_text=True)
+                cell.alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
                 cell.font = Font(bold=True)
+                if cell.value:
+                    txt_len=len(str(cell.value))
+                    if(txt_len>35):
+                        row_max=15+(txt_len//35)*10
+                        ws.row_dimensions[cell.row].height=row_max
         
-        cell = ws["B1"]
-        cell.value = "GRADE CARD"
-        cell.font = Font(bold=True,size=20)
-        
+        # cell = ws["B1"]
+        # cell.value = "GRADE CARD"
+        # cell.font = Font(bold=True,size=20)
+        ws.merged_cells.ranges = [range for range in ws.merged_cells.ranges if not (range.min_row == 1 and range.min_col == 2)]
         for merged_range in ws.merged_cells.ranges:
                 min_row, min_col, max_row, max_col = merged_range.min_row, merged_range.min_col, merged_range.max_row, merged_range.max_col
                 for row in range(min_row, max_row + 1):
@@ -238,6 +246,6 @@ def create(name,branch,name1):
         # print(f"Created file for {student}: {output_filename}")
         createpdf(output_filename)
         count += 1
-        # if count==2:
-        #     break
+        if count==1:
+            break
     print("Processing complete.")
