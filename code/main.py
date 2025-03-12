@@ -3,7 +3,8 @@ from excel_creator import create
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
 
-file_name = input("Enter File Name : ")
+# file_name = input("Enter File Name : ")
+file_name = "ECE-2020-CUMULATIVE.xlsx"
 
 data,name = getalldata(file_name)
 def createexcel():

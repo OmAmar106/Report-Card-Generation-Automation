@@ -24,7 +24,7 @@ def getalldata(filename):
 
                 while k3<df[i].shape[1] and not pd.isna(df[i].iloc[2,k3]):
                     if not pd.isna(df[i].iloc[j,k3]):
-                        finaldata[student].append((count,df[i].iloc[2,k3].title(),df[i].iloc[1,k3],df[i].iloc[3,k3],df[i].iloc[j,k3]))
+                        finaldata[student].append((count,df[i].iloc[2,k3].title().replace('\n',' '),df[i].iloc[1,k3],df[i].iloc[3,k3],df[i].iloc[j,k3]))
                     k3 += 1
             
         count += 1

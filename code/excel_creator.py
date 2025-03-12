@@ -41,6 +41,8 @@ def create(name,branch,name1):
         student_df = df[df["BT ID"] == student].sort_values(by="Semester")
         output_filename = f"{student}_Grade_Card.xlsx"
         
+        left_align = []
+
         headers = []
         headers.append((2,2,2))
         headers.append((3,2,2))
@@ -97,6 +99,10 @@ def create(name,branch,name1):
                     
                     left_start_row += 1
                     func(sem_df,left_start_row,left_start_col)
+
+                    for j in range(len(sem_df)):
+                        left_align.append((left_start_row+j+2,left_start_col+3))
+
                     for j in range(len(sem_df)+1):
                         headers.append((left_start_row+j+1, left_start_col + 1,1))
                         headers.append((left_start_row+j+1, left_start_col + 3,3))
@@ -116,6 +122,10 @@ def create(name,branch,name1):
                     header_df.to_excel(writer, sheet_name="Sheet1", startrow=right_start_row, startcol=right_start_col, index=False, header=False)
                     right_start_row += 1                    
                     func(sem_df,right_start_row,right_start_col)
+
+                    for j in range(len(sem_df)):
+                        left_align.append((right_start_row+j+2,right_start_col+3))
+
                     for j in range(len(sem_df)+1):
                         headers.append((right_start_row+j+1, right_start_col + 1,1))
                         headers.append((right_start_row+j+1, right_start_col + 3,3))
@@ -224,12 +234,28 @@ def create(name,branch,name1):
                     continue
                 cell.alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
                 cell.font = Font(bold=True)
-                if cell.value:
-                    txt_len=len(str(cell.value))
-                    if(txt_len>35):
-                        row_max=15+(txt_len//35)*10
-                        ws.row_dimensions[cell.row].height=row_max
+                # if cell.value:
+                #     txt_len=len(str(cell.value))
+                #     if(txt_len>35):
+                #         row_max=15+(txt_len//35)*10
+                #         try:
+                #             ws.row_dimensions[cell.row].height=max(ws.row_dimensions[cell.row].height,row_max)
+                #         except:
+                #             ws.row_dimensions[cell.row].height= row_max
         
+        for u,v in left_align:
+            cell = ws.cell(row=u, column=v)
+            cell.alignment = Alignment(horizontal='left', vertical='center', wrap_text=True)
+            cell.font = Font(bold=True)
+            if cell.value:
+                txt_len=len(str(cell.value))
+                if(txt_len>40):
+                    row_max=20+(txt_len//35)*10
+                    try:
+                        ws.row_dimensions[cell.row].height=max(ws.row_dimensions[cell.row].height,row_max)
+                    except:
+                        ws.row_dimensions[cell.row].height= row_max
+            
         # cell = ws["B1"]
         # cell.value = "GRADE CARD"
         # cell.font = Font(bold=True,size=20)
@@ -239,6 +265,8 @@ def create(name,branch,name1):
                 for row in range(min_row, max_row + 1):
                     for col in range(min_col, max_col + 1):
                         ws.cell(row=row, column=col).border = border_style
+
+        # ws.cell(row=6, column=4).alignment = Alignment(horizontal='left',vertical='top')
 
         wb.save(output_filename)
         wb.close()
