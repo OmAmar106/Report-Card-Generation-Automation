@@ -18,8 +18,10 @@ def func1(num):
         return 'VI'
     elif num==7:
         return 'VII'
-    else:
+    elif num==8:
         return 'VIII'
+    else:
+        return None
 
 def func7(st):
     d = {"AA":10,"AB":9,"BB":8,"BC":7,"CC":6,"CD":5,"DD":4}
@@ -71,7 +73,8 @@ def create(name,branch,name1):
             unique_semesters = sorted(student_df["Semester"].unique())
 
             for semester in unique_semesters:
-
+                if not func1(semester):
+                    continue
                 credi = 0
                 acq = 0
 
@@ -87,6 +90,8 @@ def create(name,branch,name1):
                     if row["Grade"]!="FF":
                         credi += row["Credit"]
                         acq += row["Credit"]*func7(row["Grade"])
+                    else:
+                        tc += row["Credit"]
 
                 tacq += acq
                 tc += credi

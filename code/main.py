@@ -4,7 +4,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Alignment
 
 # file_name = input("Enter File Name : ")
-file_name = "ECE-2020-CUMULATIVE.xlsx"
+file_name = "FINAL CONTROL SHEET 2020 ECE.xlsx"
 
 data,name = getalldata(file_name)
 def createexcel():
