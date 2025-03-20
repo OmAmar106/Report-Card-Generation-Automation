@@ -6,7 +6,7 @@ from openpyxl.styles import Alignment
 # file_name = input("Enter File Name : ")
 file_name = "FINAL CONTROL SHEET 2020 ECE.xlsx"
 
-data,name = getalldata(file_name)
+# data,name = getalldata(file_name)
 def createexcel():
     wb = Workbook()
     ws = wb.active

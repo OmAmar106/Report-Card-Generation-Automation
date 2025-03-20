@@ -21,6 +21,8 @@ def func1(num):
     elif num==8:
         return 'VIII'
     else:
+        if num in [1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5]:
+            return 1
         return None
 
 def func7(st):
@@ -42,6 +44,13 @@ def create(name,branch,name1):
     students = df["BT ID"].unique()
     count = 0
     for student in students:
+        cset = set()
+        y = 9
+        if count<y:
+            count += 1
+            continue
+        elif count==y+1:
+            break
         try:
             student_df = df[df["BT ID"] == student].sort_values(by="Semester")
             output_filename = f"{student}_Grade_Card.xlsx"
@@ -74,8 +83,9 @@ def create(name,branch,name1):
                 table_cols = ["Course Code","Course","Credit","Grade"]
                 
                 unique_semesters = sorted(student_df["Semester"].unique())
-
+                
                 for semester in unique_semesters:
+
                     if not func1(semester):
                         continue
                     credi = 0
@@ -94,14 +104,19 @@ def create(name,branch,name1):
                             credi += row["Credit"]
                             acq += row["Credit"]*func7(row["Grade"])
                         else:
-                            tc += row["Credit"]
+                            if row["Course Code"].strip() not in cset:
+                                tc += row["Credit"]
+                                cset.add(row["Course Code"].strip())
 
                     tacq += acq
                     tc += credi
 
                     if int(semester) % 2 == 1:
                         headers.append((left_start_row + 1, left_start_col + 1,8))
-                        header_text = f"SEM. {func1(semester)} (July-Nov {int('20'+student[2:4])+int(semester)//2})"  
+                        if semester==int(semester):
+                            header_text = f"SEM. {func1(semester)} (July-Nov {int('20'+student[2:4])+int(semester)//2})"
+                        else:
+                            header_text = f"RE EXAM SEM. {func1(int(semester))} (Dec-Jan {int('20'+student[2:4])+int(semester)//2})"
                         header_df = pd.DataFrame({" ": [header_text]})
                         header_df.to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col, index=False, header=False)
                         
@@ -125,7 +140,10 @@ def create(name,branch,name1):
                     
                     else:
                         headers.append((right_start_row + 1, right_start_col + 1,8))
-                        header_text = f"SEM. {func1(semester)} (Jan-May {int('20'+student[2:4])+int(semester)//2})"  
+                        if semester==int(semester):
+                            header_text = f"SEM. {func1(semester)} (Jan-May {int('20'+student[2:4])+int(semester)//2})"
+                        else:
+                            header_text = f"RE EXAM SEM. {func1(int(semester))} (June-July {int('20'+student[2:4])+int(semester)//2})"
                         header_df = pd.DataFrame({" ": [header_text]})
                         header_df.to_excel(writer, sheet_name="Sheet1", startrow=right_start_row, startcol=right_start_col, index=False, header=False)
                         right_start_row += 1                    
@@ -285,8 +303,6 @@ def create(name,branch,name1):
             # print(f"Created file for {student}: {output_filename}")
             createpdf(output_filename)
             count += 1
-            if count==11:
-                break
         except:
             print("Failed for : "+student)
     print("Processing complete.")

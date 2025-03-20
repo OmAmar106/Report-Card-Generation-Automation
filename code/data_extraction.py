@@ -13,7 +13,7 @@ def getalldata(filename):
 
     dmap = {}
 
-    for i in df:
+    for i in df.keys():
         if i.upper()=='CGPA':
             continue
         for j in range(7,df[i].shape[0]):
@@ -36,17 +36,21 @@ def getalldata(filename):
                     L2 = []
                     L4 = []
                     L3 = []
-                    for i1 in range(len(back)):
+                    i1 = 0
+                    while (i1<len(back)):
                         if back[i1]==')':
                             if back[i1+1:min(i1+8,len(back))]==" S.TERM" or back[i1+1:min(i1+7,len(back))]=="S.TERM":
                                 L2.append(L3)
+                                i1 += 7
                             else:
                                 L4.append(L3)
                             L3 = []
                         else:
                             if not L3 and back[i1]==' ':
+                                i1 += 1
                                 continue
                             L3.append(back[i1])
+                        i1 += 1
                 except:
                     continue
                 
@@ -80,8 +84,44 @@ def getalldata(filename):
 
                 for i1 in set1:
                     if i1 not in dmap:
-                        # dmap[i] = [input("Enter Full form: "),input("Enter Course Code: ")]
-                        dmap[i1] = [i1,"MAL101"]
+                        # dmap[i1] = [input("Enter Full form of"+i1),input("Enter Course Code: ")]
+                        dmap[i1] = [i1,"MAL 101"]
+                
+                for sem,subject,cred,grade in L7:
+                    finaldata[student].append((sem,dmap[subject][0],dmap[subject][1],cred,grade))
+                
+                L7 = []
+
+                set1.clear()
+                for subject in L2:
+                    arr = subject
+                    try:
+                        if arr[0]==",":
+                            arr = arr[1:]
+                    except:
+                        continue
+                    grade = arr[0]+arr[1]
+                    if "W" in grade:
+                        grade = "FF"
+                    if 2<len(arr) and arr[2]=="*":
+                        grade += arr[2]
+                    cred = (arr[-1])
+                    sub = []
+                    f = arr.index('(')+1
+
+                    while arr[f]!=',':
+                        sub.append(arr[f])
+                        f += 1
+                    sub = ''.join(sub)
+                    set1.add(sub)
+                    L7.append((count+(0.5),sub,cred,grade))
+                # if L4:
+                #     print(L4)
+
+                for i1 in set1:
+                    if i1 not in dmap:
+                        # dmap[i1] = [input("Enter Full form of"+i1),input("Enter Course Code: ")]
+                        dmap[i1] = [i1,"MAL 101"]
                 
                 for sem,subject,cred,grade in L7:
                     finaldata[student].append((sem,dmap[subject][0],dmap[subject][1],cred,grade))
