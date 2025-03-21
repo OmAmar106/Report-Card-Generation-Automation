@@ -23,6 +23,8 @@ def func1(num):
     else:
         if num in [1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5]:
             return 1
+        if num in [1.25,2.25,3.25,4.25,5.25,6.25,7.25,8.25]:
+            return 2
         return None
 
 def func7(st):
@@ -45,7 +47,7 @@ def create(name,branch,name1):
     count = 0
     for student in students:
         cset = set()
-        y = 9
+        y = 102
         if count<y:
             count += 1
             continue
@@ -100,6 +102,8 @@ def create(name,branch,name1):
                         sem_df["Grade"].to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col+8, index=False)
 
                     for index,row in sem_df.iterrows():
+                        if row["Grade"]=="W":
+                            continue
                         coursecode = row["Course Code"].strip()
                         credi += row["Credit"]
                         acq += row["Credit"]*func7(row["Grade"])
@@ -108,7 +112,7 @@ def create(name,branch,name1):
                             tacq += row["Credit"]*func7(row["Grade"])
                             if "FF" not in row["Grade"]:
                                 tc += row["Credit"]
-                            cset.add(coursecode)
+                                cset.add(coursecode)
                         else:
                             tacq += row["Credit"]*func7(row["Grade"])
                         
@@ -133,7 +137,12 @@ def create(name,branch,name1):
                         if semester==int(semester):
                             header_text = f"SEM. {func1(semester)} (July-Nov {int('20'+student[2:4])+int(semester)//2})"
                         else:
-                            header_text = f"RE EXAM SEM. {func1(int(semester))} (Dec-Jan {int('20'+student[2:4])+int(semester)//2})"
+                            if (semester-0.25)==int(semester-0.25):
+                                credi = L7[-1][-4]
+                                acq += L7[-1][-2]
+                                header_text = f"RE EXAM SEM. {func1(int(semester))} (July-Nov {int('20'+student[2:4])+int(semester)//2})"
+                            else:
+                                header_text = f"SUMMER TERM (Dec-Jan {int('20'+student[2:4])+int(semester)//2})"
                         header_df = pd.DataFrame({" ": [header_text]})
                         header_df.to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col, index=False, header=False)
                         
@@ -160,7 +169,12 @@ def create(name,branch,name1):
                         if semester==int(semester):
                             header_text = f"SEM. {func1(semester)} (Jan-May {int('20'+student[2:4])+int(semester)//2})"
                         else:
-                            header_text = f"RE EXAM SEM. {func1(int(semester))} (June-July {int('20'+student[2:4])+int(semester)//2})"
+                            if (semester-0.25)==int(semester-0.25):
+                                credi = L7[-1][-4]
+                                acq += L7[-1][-2]
+                                header_text = f"RE EXAM SEM. {func1(int(semester))} (Jan-May {int('20'+student[2:4])+int(semester)//2})"
+                            else:
+                                header_text = f"SUMMER TERM (June-July {int('20'+student[2:4])+int(semester)//2})"
                         header_df = pd.DataFrame({" ": [header_text]})
                         header_df.to_excel(writer, sheet_name="Sheet1", startrow=right_start_row, startcol=right_start_col, index=False, header=False)
                         right_start_row += 1                    
