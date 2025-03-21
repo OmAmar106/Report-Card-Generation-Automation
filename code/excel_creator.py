@@ -100,16 +100,33 @@ def create(name,branch,name1):
                         sem_df["Grade"].to_excel(writer, sheet_name="Sheet1", startrow=left_start_row, startcol=left_start_col+8, index=False)
 
                     for index,row in sem_df.iterrows():
-                        if "FF" not in row["Grade"]:
-                            credi += row["Credit"]
-                            acq += row["Credit"]*func7(row["Grade"])
-                        else:
-                            if row["Course Code"].strip() not in cset:
-                                tc += row["Credit"]
-                                cset.add(row["Course Code"].strip())
+                        coursecode = row["Course Code"].strip()
+                        credi += row["Credit"]
+                        acq += row["Credit"]*func7(row["Grade"])
 
-                    tacq += acq
-                    tc += credi
+                        if coursecode not in cset:
+                            tacq += row["Credit"]*func7(row["Grade"])
+                            if "FF" not in row["Grade"]:
+                                tc += row["Credit"]
+                            cset.add(coursecode)
+                        else:
+                            tacq += row["Credit"]*func7(row["Grade"])
+                        
+
+
+                        # if "FF" not in row["Grade"]:
+                        #     credi += row["Credit"]
+                        #     tc += row["Credit"]
+                        #     acq += row["Credit"]*func7(row["Grade"])
+                        # else:
+                        #     if  not in cset:
+                        #         tc += row["Credit"]
+                        #         cset.add(row["Course Code"].strip())
+                        #     else:
+                        #         credi += row["Credit"]
+
+                    # tacq += acq
+                    # tc += credi
 
                     if int(semester) % 2 == 1:
                         headers.append((left_start_row + 1, left_start_col + 1,8))
