@@ -1,3 +1,4 @@
+import json
 
 def getalldata(filename):
     import pandas as pd
@@ -12,6 +13,12 @@ def getalldata(filename):
     set1 = set()
 
     dmap = {}
+
+    with open("Report-Card-Generation-Automation/code/data/data.json", "r") as file:
+        dmap = json.load(file)
+
+
+    print("Enter y in case the name is already the full form")
 
     for i in df.keys():
         if i.upper()=='CGPA':
@@ -36,11 +43,11 @@ def getalldata(filename):
                         grd = df[i].iloc[j,k3]
                         if grd[-1]=="*":
                             grd = grd[:-1]
-                            coursesinback[df[i].iloc[2,k3].replace('\n',' ')] = df[i].iloc[1,k3]
-                            set1.add(df[i].iloc[2,k3].replace('\n',' '))
-                            reexam.append((count,df[i].iloc[2,k3].replace('\n',' '),df[i].iloc[3,k3],grd+'*'))
+                            coursesinback[df[i].iloc[2,k3].replace('\n',' ').strip()] = df[i].iloc[1,k3]
+                            set1.add(df[i].iloc[2,k3].replace('\n',' ').strip())
+                            reexam.append((count,df[i].iloc[2,k3].replace('\n',' ').strip(),df[i].iloc[3,k3],grd+'*'))
                             grd = "FF"
-                        finaldata[student].append((count,df[i].iloc[2,k3].replace('\n',' '),df[i].iloc[1,k3],df[i].iloc[3,k3],grd))
+                        finaldata[student].append((count,df[i].iloc[2,k3].replace('\n',' ').strip(),df[i].iloc[1,k3],df[i].iloc[3,k3],grd))
                     k3 += 1
 
                 try:
@@ -106,9 +113,12 @@ def getalldata(filename):
                 for i1 in set1:
                     if i1 not in dmap:
                         # dmap[i1] = [input("Enter Full form of"+i1),input("Enter Course Code: ")]
-                        if i1 not in coursesinback:
-                            dmap[i1] = [i1,"MAL 101"]
-                        else:
+                        if i1 not in coursesinback and i1 not in dmap:
+                            sub = input("Enter Full form of "+i1+" : ")
+                            if sub=="y":
+                                sub = i1
+                            dmap[i1] = [sub,input("Enter Course Code of "+i1+" : ")]
+                        elif i1 not in dmap:
                             dmap[i1] = [i1,coursesinback[i1]]
                 
                 for sem,subject,cred,grade in L7:
@@ -148,8 +158,10 @@ def getalldata(filename):
 
                 for i1 in set1:
                     if i1 not in dmap:
-                        # dmap[i1] = [input("Enter Full form of"+i1),input("Enter Course Code: ")]
-                        dmap[i1] = [i1,"MAL 101"]
+                        sub = input("Enter Full form of "+i1+" : ")
+                        if sub=="y":
+                            sub = i1
+                        dmap[i1] = [sub,input("Enter Course Code of "+i1+" : ")]
                 
                 for sem,subject,cred,grade in L7:
                     finaldata[student].append((sem,dmap[subject][0],dmap[subject][1],cred,grade))
@@ -157,5 +169,8 @@ def getalldata(filename):
 
 
         count += 1
+    # print(dmap)
+    with open("Report-Card-Generation-Automation/code/data/data.json", "w") as file:
+        json.dump(dmap, file, indent=4)
 
     return (finaldata,name)

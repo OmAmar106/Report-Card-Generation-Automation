@@ -2,11 +2,10 @@ from data_extraction import getalldata
 from excel_creator import create
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
+import os
 
-# file_name = input("Enter File Name : ")
-file_name = "FINAL CONTROL SHEET 2020 ECE.xlsx"
+file_name = os.path.dirname(os.path.abspath(__file__))+"\\data\\"+input("Enter File Name : ")
 
-# data,name = getalldata(file_name)
 def createexcel():
     wb = Workbook()
     ws = wb.active
@@ -21,11 +20,18 @@ def createexcel():
     wb.save(filename)
 
 
-filename = "student_data.xlsx"  
-finaldata, name = getalldata(file_name)
+filename = os.path.dirname(os.path.abspath(__file__))+"\\data\\student_data.xlsx"  
 
-createexcel()
+try:
+    finaldata, name = getalldata(file_name)
+except:
+    print("File does not exist or in the wrong directory or some other error.")
 
-create("student_data.xlsx","Electronics and Communication Engineering",name)
+try:
+    createexcel()
+except:
+    print("Error in creating the updated excel file.")
+
+create(filename,input("Enter Branch Name : "),name)
 
 # create("student_data.xlsx",input("Enter Branch Name"))

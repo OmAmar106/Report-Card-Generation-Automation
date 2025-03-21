@@ -1,6 +1,7 @@
 # Report Card Generation Automation
 
 This project automates the generation of student report cards using **Python** with the following libraries: `pandas`, `openpyxl`, and `win32com`.
+It is being used by IIIT Nagpur for generation of Report Cards
 
 ## Features
 - Extracts student data from an Excel file.
