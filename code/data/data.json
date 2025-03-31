@@ -1,0 +1,166 @@
+{
+    "Temp": [
+        "Temp",
+        "Temp"
+    ],
+    "Calculus for Engineers": [
+        "Calculus for Engineers",
+        "MAL103"
+    ],
+    "Computer Programming": [
+        "Computer Programming",
+        "CSL 101"
+    ],
+    "Introduction to Gaming": [
+        "Introduction to Gaming",
+        "CSL 106"
+    ],
+    "Introduction to HCI": [
+        "Introduction to HCI",
+        "CSL 107"
+    ],
+    "Mechanics and Graphics": [
+        "Mechanics and Graphics",
+        "BEL 101"
+    ],
+    "Applied Physics for Gaming": [
+        "Applied Physics for Gaming",
+        "ASL 103"
+    ],
+    "Game Development Design Thinking": [
+        "Game Development Design Thinking",
+        "CSL 108"
+    ],
+    "Data Structures": [
+        "Data Structures",
+        "CSL 102"
+    ],
+    "Application Programming": [
+        "Application Programming",
+        "CSL 103"
+    ],
+    "Matrices, Transform Techniques, and Differential Equations": [
+        "Matrices, Transform Techniques, and Differential Equations",
+        "MAL104"
+    ],
+    "Applied Electronics": [
+        "Applied Electronics",
+        "ECL 103"
+    ],
+    "CoE": [
+        "Calculas For Engineering",
+        "MAL-101"
+    ],
+    "Gamification for Learning": [
+        "Gamification for Learning",
+        "CSL 211"
+    ],
+    "Computer Architecture and Organization": [
+        "Computer Architecture and Organization",
+        "CSL 212"
+    ],
+    "Discrete Maths and Graph Theory": [
+        "Discrete Maths and Graph Theory",
+        "CSL 204"
+    ],
+    "Introduction to Object Oriented Programming": [
+        "Introduction to Object Oriented Programming",
+        "CSL 202"
+    ],
+    "M&G": [
+        "M&G",
+        "y"
+    ],
+    "Data Structures with Applications": [
+        "Data Structures with Applications",
+        "CSL 210"
+    ],
+    "Human Computer Interaction": [
+        "Human Computer Interaction",
+        "CSL 432"
+    ],
+    "Software Engg. and Game Testing": [
+        "Software Engg. and Game Testing",
+        "CSL 213 "
+    ],
+    "Numerical Methods and Probability Theory": [
+        "Numerical Methods and Probability Theory",
+        "MAL 201"
+    ],
+    "AP": [
+        "AP",
+        "y"
+    ],
+    "Design and Analysis of Algorithms": [
+        "Design and Analysis of Algorithms",
+        "CSL 205"
+    ],
+    "Operating Systems": [
+        "Operating Systems",
+        "CSL 207"
+    ],
+    "MTTDE": [
+        "MTTDE",
+        "y"
+    ],
+    "AE": [
+        "AE",
+        "y"
+    ],
+    "DS": [
+        "DS",
+        "y"
+    ],
+    "DAA": [
+        "DAA",
+        "y"
+    ],
+    "GL": [
+        "GL",
+        "y"
+    ],
+    "OOP": [
+        "OOP",
+        "y"
+    ],
+    "Computer Graphics": [
+        "Computer Graphics",
+        "CSL 431"
+    ],
+    "Applied Linear Algebra": [
+        "Applied Linear Algebra",
+        "MAL 302"
+    ],
+    "Cal.for Eng.": [
+        "Cal.for Eng.",
+        "y"
+    ],
+    "Theory of Computation": [
+        "Theory of Computation",
+        "CSL 303"
+    ],
+    "Cal. for Eng.": [
+        "Cal. for Eng.",
+        "y"
+    ],
+    "Database Management Systems": [
+        "Database Management Systems",
+        "CSL 301"
+    ],
+    "DSA": [
+        "DSA",
+        "y"
+    ],
+    "CAO": [
+        "CAO",
+        "y"
+    ],
+    "DMGT": [
+        "DMGT",
+        "y"
+    ],
+    "Computer Networks": [
+        "Computer Networks",
+        "CSL 302"
+    ]
+}

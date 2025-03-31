@@ -22,11 +22,8 @@ def createexcel():
 
 filename = os.path.dirname(os.path.abspath(__file__))+"\\data\\student_data.xlsx"  
 
-try:
-    finaldata, name = getalldata(file_name)
-except:
-    print("File does not exist or in the wrong directory or some other error.")
-
+finaldata, name = getalldata(file_name)
+    
 try:
     createexcel()
 except:

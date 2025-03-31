@@ -1,4 +1,5 @@
 import json
+import os
 
 def getalldata(filename):
     import pandas as pd
@@ -14,10 +15,9 @@ def getalldata(filename):
 
     dmap = {}
 
-    with open("Report-Card-Generation-Automation/code/data/data.json", "r") as file:
+    with open(os.path.dirname(os.path.abspath(__file__))+"\\data\\data.json", "r") as file:
         dmap = json.load(file)
-
-
+    
     print("Enter y in case the name is already the full form")
 
     for i in df.keys():
@@ -98,9 +98,13 @@ def getalldata(filename):
                     sub = []
                     f = arr.index('(')+1
 
-                    while arr[f]!=',':
+                    while arr[f]!=',' and arr[f]!="=":
                         sub.append(arr[f])
                         f += 1
+                    if arr[f]=="=":
+                        sub.pop()
+                        sub.pop()
+                        
                     sub = ''.join(sub)
                     set1.add(sub)
                     if not flag:
@@ -146,7 +150,6 @@ def getalldata(filename):
                     cred = (arr[-1])
                     sub = []
                     f = arr.index('(')+1
-
                     while arr[f]!=',':
                         sub.append(arr[f])
                         f += 1
@@ -170,7 +173,7 @@ def getalldata(filename):
 
         count += 1
     # print(dmap)
-    with open("Report-Card-Generation-Automation/code/data/data.json", "w") as file:
+    with open(os.path.dirname(os.path.abspath(__file__))+"\\data\\data.json", "w") as file:
         json.dump(dmap, file, indent=4)
 
     return (finaldata,name)
