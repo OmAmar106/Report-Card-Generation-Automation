@@ -1,3 +1,5 @@
 openpyxl
 pandas
 pywin32
+# python Scripts/pywin32_postinstall.py -install
+# add the versions as well in my laptop to here

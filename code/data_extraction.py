@@ -21,7 +21,7 @@ def getalldata(filename):
     print("Enter y in case the name is already the full form")
 
     for i in df.keys():
-        if i.upper()=='CGPA':
+        if i.upper()=='CGPA' or i.upper()=='SEM':
             continue
         for j in range(7,df[i].shape[0]):
             if not pd.isna(df[i].iloc[j,1]):
