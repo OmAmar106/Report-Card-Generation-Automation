@@ -21,7 +21,11 @@ It is being used by IIIT Nagpur for generation of Report Cards
 >> cd code
 ```
 ```bash
->> pip install pandas openpyxl pywin32
+>> pip install -r requirements.txt
+```
+Navigate to directory containing python scripts
+```bash
+>> python Scripts/pywin32_postinstall.py -install
 ```
 ```bash
 >> python main.py
