@@ -14,9 +14,9 @@ def createpdf(input_path):
     ws.PageSetup.Zoom = 58
     ws.PageSetup.FitToPagesWide = 1
     ws.PageSetup.FitToPagesTall = 1
-    ws.PageSetup.TopMargin = 100
-    ws.PageSetup.LeftMargin = 3
-    ws.PageSetup.RightMargin = 3
+    ws.PageSetup.TopMargin = 20
+    ws.PageSetup.LeftMargin = 13
+    ws.PageSetup.RightMargin = 13
 
     wb.ExportAsFixedFormat(0, os.path.abspath(input_path[:-4] + 'pdf'))
     wb.Close(False)

@@ -21,7 +21,7 @@ def getalldata(filename):
     print("Enter y in case the name is already the full form")
 
     for i in df.keys():
-        if i.upper()=='CGPA' or i.upper()=='SEM':
+        if i.upper()=='CGPA' or i.upper()=='SIGN':
             continue
         for j in range(7,df[i].shape[0]):
             if not pd.isna(df[i].iloc[j,1]):
@@ -76,9 +76,7 @@ def getalldata(filename):
                         continue
                 
                 L7 = []
-                # now L4 has the back subjects and L2 has the summer term subjects
-                
-                
+                # now L4 has the back subjects and L2 has the summer term subjects                
 
                 for subject in L4:
                     arr = subject
@@ -133,7 +131,6 @@ def getalldata(filename):
                 
                 L7 = []
 
-
                 set1.clear()
                 for subject in L2:
                     arr = subject
@@ -169,8 +166,6 @@ def getalldata(filename):
                 for sem,subject,cred,grade in L7:
                     finaldata[student].append((sem,dmap[subject][0],dmap[subject][1],cred,grade))
                 
-
-
         count += 1
     # print(dmap)
     with open(os.path.dirname(os.path.abspath(__file__))+"\\data\\data.json", "w") as file:

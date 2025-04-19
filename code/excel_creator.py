@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment,Font,Border,Side
+from openpyxl.drawing.image import Image
 from pdfcreator import createpdf
 import os
 
@@ -41,7 +42,7 @@ border_style = Border(left=Side(style="medium", color="000000"),
                       top=Side(style="medium", color="000000"),
                       bottom=Side(style="medium", color="000000"))
 
-def create(name,branch,name1):
+def create(name,branch,name1,flag=True):
     df = pd.read_excel(name)
     df.columns = df.columns.str.strip()
     students = df["BT ID"].unique()
@@ -220,7 +221,12 @@ def create(name,branch,name1):
             for u,v,w,x in merge:
                 ws.merge_cells(start_row=u,end_row=v,start_column=w,end_column=x)
 
-            ws.row_dimensions[1].height = 30
+            ws.row_dimensions[1].height = 169
+            if flag:
+                img = Image(os.path.dirname(os.path.abspath(__file__))+'\\data\\IIITN-Logo.jpg')
+                img.height = 240
+                img.width = 1250 # update this accorindg to the height
+                ws.add_image(img,'B1')
             # for col, width in column_widths.items():
             #     ws.column_dimensions[col].width = width
 
@@ -334,7 +340,6 @@ def create(name,branch,name1):
                             ws.cell(row=row, column=col).border = border_style
 
             # ws.cell(row=6, column=4).alignment = Alignment(horizontal='left',vertical='top')
-
             wb.save(output_filename)
             wb.close()
 
@@ -346,6 +351,8 @@ def create(name,branch,name1):
         except:
             print("Failed Student : "+student+" ,Total Failed : "+str(len(Failed)))
             Failed.append(student)
+        # if student[-2]=='0':
+        #     break
             
     print("Processing complete.")
     print("Failed for : ",Failed)

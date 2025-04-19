@@ -4,6 +4,7 @@ This project automates the generation of student report cards using **Python** w
 It is being used by IIIT Nagpur for generation of Report Cards
 
 ## Features
+
 - Extracts student data from an Excel file.
 - Reformats the data into a new Excel file.
 - For each Student creates a new Excel file format report card.

@@ -7,3 +7,5 @@ In case you want to delete/update some pair, you will have to do so manually fro
 
 Put the Control Sheet in this directory and then run the code from the directory in which you want the final file to be created,
 the final file that will be created will have the format BranchName/Year/Files.
+
+Add IIITN-Logo.jpg to the data/ folder, to be able to add it in the grade card.

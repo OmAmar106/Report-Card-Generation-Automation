@@ -24,11 +24,8 @@ filename = os.path.dirname(os.path.abspath(__file__))+"\\data\\student_data.xlsx
 
 finaldata, name = getalldata(file_name)
     
-try:
-    createexcel()
-except:
-    print("Error in creating the updated excel file.")
+createexcel()
 
-create(filename,input("Enter Branch Name : "),name)
+create(filename,input("Enter Branch Name : "),name,(input("Enter y if you want the iiit n logo above : ")=="y"))
 
 # create("student_data.xlsx",input("Enter Branch Name"))
