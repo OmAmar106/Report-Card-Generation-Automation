@@ -1,3 +1,4 @@
 *.xlsx
 IIITN-Logo.jpg
 __pycache__
+*.json
