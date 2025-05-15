@@ -3,6 +3,7 @@ from openpyxl import load_workbook
 from openpyxl.styles import Alignment,Font,Border,Side
 from openpyxl.drawing.image import Image
 from pdfcreator import createpdf
+from datetime import datetime
 import os
 
 def func1(num):
@@ -225,8 +226,9 @@ def create(name,branch,name1,flag=True):
             if flag:
                 img = Image(os.path.dirname(os.path.abspath(__file__))+'\\data\\IIITN-Logo.jpg')
                 img.height = 240
-                img.width = 1250 # update this accorindg to the height
+                img.width = 1221 # update this accorindg to the height
                 ws.add_image(img,'B1')
+                
             # for col, width in column_widths.items():
             #     ws.column_dimensions[col].width = width
 
@@ -340,6 +342,32 @@ def create(name,branch,name1,flag=True):
                             ws.cell(row=row, column=col).border = border_style
 
             # ws.cell(row=6, column=4).alignment = Alignment(horizontal='left',vertical='top')
+            if flag:
+                t = max(right_start_row,left_start_row)+1
+                t += 1
+                ws.cell(row=t, column=2).value = "Note: This grade card is exclusively for internal use"
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+                
+                t += 1
+                ws.cell(row=t, column=2).value = "Medium of Instruction :English"
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+
+                t += 1
+                ws.cell(row=t, column=2).value = "Abreviations: SGPA-Semester Grade Point Average, CGPA:-Cumulative Grade Point Average, EGP-Earned Grade Points"
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+
+                t += 1
+                ws.cell(row=t, column=2).value = "(The statement is subject to correction, if any)"
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+
+                t += 1
+                ws.cell(row=t, column=2).value = "Date: "+datetime.today().strftime("%d.%m.%Y")
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+
+                t += 1
+                ws.cell(row=t, column=2).value = "THIS IS ELECTRONICALLY GENERATED DOCUMENT AND DOES NOT REQUIRE SIGNATURE"
+                ws.cell(row=t, column=2).font = Font(bold=True,size=13)
+
             wb.save(output_filename)
             wb.close()
 
