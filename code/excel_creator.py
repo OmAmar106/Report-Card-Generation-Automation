@@ -48,9 +48,13 @@ def create(name,branch,name1,flag=True):
     df.columns = df.columns.str.strip()
     students = df["BT ID"].unique()
 
+    roll_no = ''
+
     Failed = []
     for student in students:
         cset = set()
+        if roll_no not in student:
+            continue
         # y = 102
         # if count<y:
         #     count += 1
@@ -379,8 +383,7 @@ def create(name,branch,name1,flag=True):
         except:
             print("Failed Student : "+student+" ,Total Failed : "+str(len(Failed)))
             Failed.append(student)
-        # if student[-2]=='0':
-        #     break
+        # break
             
     print("Processing complete.")
     print("Failed for : ",Failed)
