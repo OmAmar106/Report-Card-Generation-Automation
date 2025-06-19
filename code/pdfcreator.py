@@ -15,8 +15,8 @@ def createpdf(input_path):
     ws.PageSetup.FitToPagesWide = 1
     ws.PageSetup.FitToPagesTall = 1
     ws.PageSetup.TopMargin = 20
-    ws.PageSetup.LeftMargin = 20
-    ws.PageSetup.RightMargin = 15
+    ws.PageSetup.LeftMargin = 28
+    ws.PageSetup.RightMargin = 10
     ws.PageSetup.BottomMargin = 5
 
 
