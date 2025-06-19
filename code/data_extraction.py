@@ -1,7 +1,7 @@
 import json
 import os
 
-def getalldata(filename="controlsheet.xlsx"):
+def getalldata(filename):
     import pandas as pd
     from collections import defaultdict
     df = pd.read_excel(filename,sheet_name=None)
@@ -21,15 +21,11 @@ def getalldata(filename="controlsheet.xlsx"):
     print("Enter y in case the name is already the full form")
 
     for i in df.keys():
-        if i.upper()=='CGPA' or i.upper()=='SIGN' or i.upper()=='CUMULATIVE':
+        if i.upper()=='CGPA' or i.upper()=='SIGN':
             continue
-        for j in range(1,df[i].shape[0]):
-            print(df[i].iloc[j,2])
-            if not pd.isna(df[i].iloc[j,2]):
-                # student = df[i].iloc[j,3]
-                if(type(df[i].iloc[j,2]) == int or pd.isna(df[i].iloc[j,2])):
-                    continue
-                student = (df[i].iloc[j,2].lower())
+        for j in range(7,df[i].shape[0]):
+            if not pd.isna(df[i].iloc[j,1]):
+                student = (df[i].iloc[j,1].lower())
                 # finaldata[student].append()
                 if student not in name and not pd.isna(df[i].iloc[j,2]):
                     # print(df[i].iloc[j,2])
@@ -175,6 +171,4 @@ def getalldata(filename="controlsheet.xlsx"):
     with open(os.path.dirname(os.path.abspath(__file__))+"\\data\\data.json", "w") as file:
         json.dump(dmap, file, indent=4)
 
-    print("Data Extraction Completed")
-    print(finaldata,name)
     return (finaldata,name)
